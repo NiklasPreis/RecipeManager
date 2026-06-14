@@ -1,0 +1,54 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Recipe {
+  id           Int                @id @default(autoincrement())
+  title        String
+  description  String?
+  image        String?
+  servings     Int?
+  prepTime     Int?
+  cookTime     Int?
+  ingredients  String             // JSON: Ingredient[]
+  instructions String             // JSON: string[]
+  categories   CategoryOnRecipe[]
+  tags         TagOnRecipe[]
+  createdAt    DateTime           @default(now())
+  updatedAt    DateTime           @updatedAt
+}
+
+model Category {
+  id      Int                @id @default(autoincrement())
+  name    String             @unique
+  recipes CategoryOnRecipe[]
+}
+
+model Tag {
+  id      Int           @id @default(autoincrement())
+  name    String        @unique
+  recipes TagOnRecipe[]
+}
+
+model CategoryOnRecipe {
+  recipeId   Int
+  categoryId Int
+  recipe     Recipe   @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@id([recipeId, categoryId])
+}
+
+model TagOnRecipe {
+  recipeId Int
+  tagId    Int
+  recipe   Recipe @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+  tag      Tag    @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([recipeId, tagId])
+}
