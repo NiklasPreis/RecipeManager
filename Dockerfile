@@ -3,7 +3,7 @@ WORKDIR /app
 
 # Prisma-Schema VOR npm install kopieren,
 # damit der @prisma/client postinstall-Hook die Schema-Datei findet
-COPY package*.json ./
+COPY package.json ./
 COPY prisma ./prisma
 RUN npm install
 
