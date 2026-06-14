@@ -1,6 +1,8 @@
 import { prisma } from '@/lib/db'
 import RecipeForm from '@/components/RecipeForm'
 
+export const dynamic = 'force-dynamic'
+
 export default async function NewRecipePage() {
   const categories = await prisma.category.findMany({ orderBy: { name: 'asc' } })
 

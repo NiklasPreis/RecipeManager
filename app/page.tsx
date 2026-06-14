@@ -1,5 +1,7 @@
 import { Suspense } from 'react'
 import { prisma } from '@/lib/db'
+
+export const dynamic = 'force-dynamic'
 import RecipeCard from '@/components/RecipeCard'
 import CategoryManager from '@/components/CategoryManager'
 import SearchBar from '@/components/SearchBar'

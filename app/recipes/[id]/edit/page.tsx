@@ -1,6 +1,8 @@
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { prisma } from '@/lib/db'
+
+export const dynamic = 'force-dynamic'
 import RecipeForm from '@/components/RecipeForm'
 import { Ingredient } from '@/lib/types'
 

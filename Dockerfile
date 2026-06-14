@@ -9,6 +9,11 @@ FROM node:20-alpine AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
+
+# Dummy-URL damit Prisma/Next.js beim Build nicht nach einer echten DB sucht
+ENV DATABASE_URL=file:/tmp/build.db
+ENV NEXT_TELEMETRY_DISABLED=1
+
 RUN npx prisma generate
 RUN npm run build
 

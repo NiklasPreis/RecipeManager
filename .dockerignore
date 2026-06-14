@@ -1,0 +1,14 @@
+.git
+.gitignore
+.gitattributes
+node_modules
+.next
+*.db
+*.db-journal
+*.db-shm
+*.db-wal
+public/uploads/*
+!public/uploads/.gitkeep
+.env
+.env.local
+README.md
