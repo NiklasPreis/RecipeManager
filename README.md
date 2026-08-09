@@ -2,7 +2,23 @@
 
 Ein selbst gehosteter Rezepte-Manager, inspiriert von [Mealie.io](https://mealie.io) – schlicht, schnell und vollständig in Docker deploybar.
 
+[![Docker Ready](https://img.shields.io/badge/Docker-Ready-2496ED?logo=docker&logoColor=white)](https://docs.docker.com/get-docker/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.3-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](#-lizenz)
+
 > **Dieses Projekt wurde vollständig mit [Claude Code](https://claude.ai/code) von Anthropic erstellt.**
+
+---
+
+## Inhalt
+
+- [Features](#-features)
+- [Schnellstart mit Docker](#-schnellstart-mit-docker)
+- [Projektstruktur](#️-projektstruktur)
+- [Tech Stack](#️-tech-stack)
+- [Konfiguration](#️-konfiguration)
+- [Lokale Entwicklung](#-lokale-entwicklung)
+- [Lizenz](#-lizenz)
 
 ---
 
@@ -55,47 +71,37 @@ docker compose up --build -d
 
 ```
 RecipeManager/
-├── app/                        # Next.js 14 App Router
-│   ├── page.tsx                # Startseite mit Rezept-Grid
-│   ├── recipes/
-│   │   ├── new/page.tsx        # Rezept erstellen
-│   │   └── [id]/
-│   │       ├── page.tsx        # Rezept-Detailseite
-│   │       └── edit/page.tsx   # Rezept bearbeiten
-│   └── api/                    # REST API Endpunkte
-│       ├── recipes/            # GET, POST, PUT, DELETE
-│       ├── categories/         # Kategorien verwalten
-│       ├── tags/               # Tags abrufen
-│       ├── upload/             # Bild-Upload
-│       └── uploads/[filename]  # Bilder ausliefern
-├── components/                 # React-Komponenten
-│   ├── Navigation.tsx
-│   ├── RecipeCard.tsx
-│   ├── RecipeForm.tsx
-│   ├── CategoryManager.tsx
-│   └── SearchBar.tsx
-├── lib/                        # Shared Utilities
-│   ├── db.ts                   # Prisma Client
-│   ├── types.ts                # TypeScript Typen
-│   └── upload.ts               # Upload-Helfer
+├── src/
+│   ├── renderer/                   # React-Frontend (Vite)
+│   │   └── src/
+│   │       ├── pages/               # HomePage, NewRecipePage, RecipeDetailPage, EditRecipePage
+│   │       ├── components/          # Navigation, RecipeCard, RecipeForm, CategoryManager
+│   │       ├── App.tsx
+│   │       └── types.ts
+│   └── server/                     # Express-Backend
+│       ├── routes/                  # recipes, categories, tags, uploads
+│       ├── db.ts                    # Prisma Client
+│       ├── config.ts
+│       └── index.ts
 ├── prisma/
-│   └── schema.prisma           # Datenbankschema
-├── Dockerfile                  # Multi-Stage Docker Build
+│   └── schema.prisma                # Datenbankschema
+├── Dockerfile                       # Multi-Stage Docker Build
 ├── docker-compose.yml
-└── entrypoint.sh               # DB-Migration + App-Start
+└── entrypoint.sh                    # DB-Migration + App-Start
 ```
 
 ---
 
 ## 🛠️ Tech Stack
 
-| Bereich      | Technologie                              |
-|--------------|------------------------------------------|
-| Framework    | [Next.js 14](https://nextjs.org) (App Router) |
-| Sprache      | TypeScript                               |
-| Datenbank    | SQLite via [Prisma ORM](https://www.prisma.io) |
-| Styling      | [Tailwind CSS](https://tailwindcss.com)  |
-| Deployment   | Docker (Standalone-Build)                |
+| Bereich      | Technologie                                       |
+|--------------|----------------------------------------------------|
+| Frontend     | [React 18](https://react.dev) + [Vite](https://vitejs.dev), [React Router](https://reactrouter.com) |
+| Backend      | [Express](https://expressjs.com)                   |
+| Sprache      | TypeScript                                          |
+| Datenbank    | SQLite via [Prisma ORM](https://www.prisma.io)      |
+| Styling      | [Tailwind CSS](https://tailwindcss.com)             |
+| Deployment   | Docker (Multi-Stage-Build)                          |
 
 ---
 
@@ -103,10 +109,10 @@ RecipeManager/
 
 Die App wird über Umgebungsvariablen konfiguriert. Standardwerte sind für Docker voreingestellt:
 
-| Variable       | Standard              | Beschreibung                        |
-|----------------|-----------------------|-------------------------------------|
-| `DATABASE_URL` | `file:/data/recipes.db` | Pfad zur SQLite-Datenbank          |
-| `UPLOAD_DIR`   | `/data/uploads`       | Verzeichnis für hochgeladene Bilder |
+| Variable       | Standard                | Beschreibung                        |
+|----------------|--------------------------|--------------------------------------|
+| `DATABASE_URL` | `file:/data/recipes.db`  | Pfad zur SQLite-Datenbank            |
+| `UPLOAD_DIR`   | `/data/uploads`          | Verzeichnis für hochgeladene Bilder  |
 
 Für eine eigene Konfiguration die `docker-compose.yml` anpassen oder eine `.env` Datei anlegen (siehe `.env.example`).
 
@@ -120,7 +126,7 @@ Node.js (≥ 20) und npm werden benötigt:
 npm install
 cp .env.example .env
 # .env anpassen: DATABASE_URL="file:./dev.db"
-npx prisma db push
+npm run db:push
 npm run dev
 ```
 
@@ -135,5 +141,5 @@ MIT – frei nutzbar und anpassbar.
 ---
 
 <p align="center">
-  Erstellt mit <a href="https://claude.ai/code">Claude Code</a> · Betrieben mit Next.js & Docker
+  Erstellt mit <a href="https://claude.ai/code">Claude Code</a> · Betrieben mit React, Express & Docker
 </p>
